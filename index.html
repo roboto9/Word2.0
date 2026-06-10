@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Maîtrisez Word — Formation Complète</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- OVERLAY DE CHARGEMENT -->
+<div id="loadingOverlay" class="loading-overlay">
+  <div class="loader-ring"></div>
+</div>
+
+<!-- MODAL AUTH -->
+<div id="authModal" class="modal-backdrop hidden">
+  <div class="modal-box">
+    <button class="modal-close" id="closeModal">✕</button>
+    <div class="auth-tabs">
+      <button class="tab-btn active" data-tab="login">Connexion</button>
+      <button class="tab-btn" data-tab="register">Créer un compte</button>
+    </div>
+    <!-- Connexion -->
+    <div class="tab-content active" id="tab-login">
+      <h2>Bon retour 👋</h2>
+      <p class="auth-sub">Connectez-vous pour accéder à vos modules.</p>
+      <div class="form-group">
+        <label>Adresse e-mail</label>
+        <input type="email" id="loginEmail" placeholder="vous@email.com" />
+      </div>
+      <div class="form-group">
+        <label>Mot de passe</label>
+        <input type="password" id="loginPassword" placeholder="••••••••" />
+      </div>
+      <div class="form-msg" id="loginMsg"></div>
+      <button class="btn-primary full" id="btnLogin">Se connecter</button>
+    </div>
+    <!-- Inscription -->
+    <div class="tab-content" id="tab-register">
+      <h2>Créer un compte</h2>
+      <p class="auth-sub">Accédez gratuitement au module vidéo de démonstration.</p>
+      <div class="form-group">
+        <label>Prénom &amp; Nom</label>
+        <input type="text" id="regName" placeholder="Jean Dupont" />
+      </div>
+      <div class="form-group">
+        <label>Adresse e-mail</label>
+        <input type="email" id="regEmail" placeholder="vous@email.com" />
+      </div>
+      <div class="form-group">
+        <label>Mot de passe</label>
+        <input type="password" id="regPassword" placeholder="Minimum 6 caractères" />
+      </div>
+      <div class="form-msg" id="registerMsg"></div>
+      <button class="btn-primary full" id="btnRegister">Créer mon compte gratuit</button>
+    </div>
+  </div>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="nav-inner">
+    <div class="nav-brand">
+      <span class="brand-w">W</span>ord<span class="brand-dot">.</span>
+    </div>
+    <div class="nav-right">
+      <div id="navGuest" class="nav-guest">
+        <button class="btn-ghost" id="navLoginBtn">Connexion</button>
+        <button class="btn-primary" id="navRegisterBtn">Commencer gratuitement</button>
+      </div>
+      <div id="navUser" class="nav-user hidden">
+        <span class="user-badge" id="userAccessBadge"></span>
+        <span class="user-name" id="userNameDisplay"></span>
+        <button class="btn-ghost" id="btnLogout">Déconnexion</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <span class="eyebrow">Formation Microsoft Word</span>
+      <h1>Créez des documents<br /><em>qui imposent le respect.</em></h1>
+      <p class="hero-desc">
+        De la mise en page de votre CV à la rédaction d'un exposé professionnel complet,
+        maîtrisez Word pas à pas — avec des vidéos claires et des fichiers à réutiliser.
+      </p>
+      <div class="hero-ctas">
+        <button class="btn-primary large" id="heroStartBtn">Commencer gratuitement</button>
+        <a href="#modules" class="btn-ghost large">Voir les modules</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="doc-mockup">
+        <div class="doc-topbar"><span></span><span></span><span></span></div>
+        <div class="doc-lines">
+          <div class="doc-line title"></div>
+          <div class="doc-line med"></div>
+          <div class="doc-line short"></div>
+          <div class="doc-line med"></div>
+          <div class="doc-line full"></div>
+          <div class="doc-line full"></div>
+          <div class="doc-line three-q"></div>
+          <div class="doc-spacer"></div>
+          <div class="doc-line med"></div>
+          <div class="doc-line full"></div>
+          <div class="doc-line full"></div>
+          <div class="doc-line half"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="stat"><strong>4</strong><span>Modules vidéo</span></div>
+    <div class="stat"><strong>6</strong><span>Documents fournis</span></div>
+    <div class="stat"><strong>100%</strong><span>Pratique</span></div>
+  </div>
+</section>
+
+<!-- MODULES -->
+<section class="modules-section" id="modules">
+  <div class="section-inner">
+    <div class="section-header">
+      <span class="eyebrow">Programme</span>
+      <h2>Ce que vous allez apprendre</h2>
+    </div>
+    <div class="modules-grid">
+
+      <!-- Module 2 — GRATUIT (vidéo seulement) -->
+      <div class="module-card free" id="mod2">
+        <div class="module-badge free-badge">Gratuit</div>
+        <div class="module-num">02</div>
+        <div class="module-content">
+          <h3>CV &amp; Lettre de motivation</h3>
+          <p>Construisez un CV percutant et rédigez une lettre de motivation structurée directement dans Word.</p>
+          <ul class="module-deliverables">
+            <li>Vidéo de démonstration gratuite</li>
+            <li>Documents inclus dans l'accès complet</li>
+          </ul>
+          <div class="module-footer">
+            <button class="btn-module" id="btnModule2">Regarder la vidéo</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Module 1 — PAYANT -->
+      <div class="module-card premium locked" id="mod1">
+        <div class="module-badge premium-badge">Complet</div>
+        <div class="module-num">01</div>
+        <div class="module-content">
+          <h3>À propos de moi</h3>
+          <p>Premiers pas sur Word : mise en forme, titres, paragraphes et votre première page personnelle.</p>
+          <ul class="module-deliverables">
+            <li>Vidéo complète</li>
+            <li>Document "À propos de moi" (.docx)</li>
+          </ul>
+          <div class="module-footer">
+            <button class="btn-module premium-btn" id="btnModule1">
+              <span class="lock-icon">🔒</span> Accès complet
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Module 3 — PAYANT -->
+      <div class="module-card premium locked" id="mod3">
+        <div class="module-badge premium-badge">Complet</div>
+        <div class="module-num">03</div>
+        <div class="module-content">
+          <h3>Exposé complet</h3>
+          <p>Page de garde, sommaire, insertion d'images et de formes : créez un exposé digne d'un professionnel.</p>
+          <ul class="module-deliverables">
+            <li>Vidéo complète</li>
+            <li>Exposé complet (.docx)</li>
+            <li>Version finale (.pdf)</li>
+          </ul>
+          <div class="module-footer">
+            <button class="btn-module premium-btn" id="btnModule3">
+              <span class="lock-icon">🔒</span> Accès complet
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bonus — PAYANT -->
+      <div class="module-card premium locked bonus-card" id="modBonus">
+        <div class="module-badge bonus-badge">Bonus</div>
+        <div class="module-num">★</div>
+        <div class="module-content">
+          <h3>Raccourcis clavier &amp; Astuces</h3>
+          <p>Les 20 raccourcis clavier indispensables pour travailler 2× plus vite sur Word.</p>
+          <ul class="module-deliverables">
+            <li>Vidéo bonus exclusive</li>
+            <li>Guide PDF des raccourcis</li>
+          </ul>
+          <div class="module-footer">
+            <button class="btn-module premium-btn" id="btnBonus">
+              <span class="lock-icon">🔒</span> Accès complet
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ZONE LECTEUR VIDÉO (module gratuit — chargement local) -->
+<section class="player-section hidden" id="playerSection">
+  <div class="section-inner">
+    <div class="player-header">
+      <h2 id="playerTitle">Module 02 — CV &amp; Lettre de motivation</h2>
+      <button class="btn-ghost" id="closePlayer">✕ Fermer</button>
+    </div>
+
+    <!-- Sélecteur fichier local (affiché uniquement si aucune vidéo n'est chargée) -->
+    <div id="videoPickerWrap" class="video-picker-wrap">
+      <label for="videoFilePicker" class="video-picker-label">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="36" height="36"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="12" x2="12" y2="18"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+        <span>Cliquez pour charger la vidéo depuis votre ordinateur</span>
+        <small>Formats acceptés : .mp4, .webm, .mov</small>
+      </label>
+      <input type="file" id="videoFilePicker" accept="video/mp4,video/webm,video/quicktime" hidden />
+    </div>
+
+    <div class="video-container hidden" id="videoContainer">
+      <video id="mainVideo" controls controlsList="nodownload" disablePictureInPicture
+             oncontextmenu="return false">
+        Votre navigateur ne supporte pas la lecture vidéo.
+      </video>
+    </div>
+    <p class="player-note">
+      📌 La vidéo est visionnée localement depuis votre appareil. Les documents sont disponibles avec l'accès complet.
+    </p>
+  </div>
+</section>
+
+<!-- ZONE ACCÈS COMPLET -->
+<section class="full-access-section hidden" id="fullAccessSection">
+  <div class="section-inner">
+    <div class="section-header">
+      <span class="eyebrow success-eye">✅ Accès complet activé</span>
+      <h2>Tous vos contenus</h2>
+    </div>
+    <div class="resources-grid">
+
+      <div class="resource-card">
+        <div class="res-icon">🎬</div>
+        <h4>Première partie</h4>
+        <p>À propos de moi — bases de Word</p>
+        <a class="btn-resource" href="https://roboto9.github.io/Formation-Word/première-partie.mp4" target="_blank" download>Télécharger</a>
+      </div>
+
+      <div class="resource-card">
+        <div class="res-icon">🎬</div>
+        <h4>Deuxième partie</h4>
+        <p>CV &amp; Lettre de motivation</p>
+        <a class="btn-resource" href="https://roboto9.github.io/Formation-Word/deuxième-partie.mp4" target="_blank" download>Télécharger</a>
+      </div>
+
+      <div class="resource-card">
+        <div class="res-icon">🎬</div>
+        <h4>Troisième partie</h4>
+        <p>Exposé complet avec images</p>
+        <a class="btn-resource" href="https://roboto9.github.io/Formation-Word/dernière-partie.mp4" target="_blank" download>Télécharger</a>
+      </div>
+
+      <div class="resource-card">
+        <div class="res-icon">🎬</div>
+        <h4>Partie Bonus</h4>
+        <p>Exposé en PDF + raccourcis</p>
+        <a class="btn-resource" href="https://roboto9.github.io/Formation-Word/partie-bonus.mp4" target="_blank" download>Télécharger</a>
+      </div>
+
+      <div class="resource-card">
+        <div class="res-icon">📄</div>
+        <h4>À propos de moi</h4>
+        <p>Document Word (.docx)</p>
+        <a class="btn-resource" href="https://roboto9.github.io/Formation-Word/Ressources/Exemple%20%C3%80%20PROPOS%20DE%20MOI.docx" target="_blank" download>Télécharger</a>
+      </div>
+
+      <div class="resource-card">
+        <div class="res-icon">📄</div>
+        <h4>Modèle de CV</h4>
+        <p>Document Word (.docx)</p>
+        <a class="btn-resource" href="https://roboto9.github.io/Formation-Word/Ressources/mod%C3%A8le%20de%20CV.docx" target="_blank" download>Télécharger</a>
+      </div>
+
+      <div class="resource-card">
+        <div class="res-icon">📄</div>
+        <h4>Lettre de motivation</h4>
+        <p>Document Word (.docx)</p>
+        <a class="btn-resource" href="https://roboto9.github.io/Formation-Word/Ressources/lettre%20de%20motivation.docx" target="_blank" download>Télécharger</a>
+      </div>
+
+      <div class="resource-card">
+        <div class="res-icon">📊</div>
+        <h4>Exposé complet</h4>
+        <p>Word + PDF</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <a class="btn-resource" href="https://roboto9.github.io/Formation-Word/Ressources/EXPOSE.docx" target="_blank" download>Word</a>
+          <a class="btn-resource" href="https://roboto9.github.io/Formation-Word/Ressources/EXPOSE.pdf" target="_blank" download>PDF</a>
+        </div>
+      </div>
+
+      <div class="resource-card">
+        <div class="res-icon">⌨️</div>
+        <h4>Raccourcis clavier</h4>
+        <p>Guide PDF — 20 raccourcis</p>
+        <a class="btn-resource" href="https://roboto9.github.io/Formation-Word/Ressources/LISTE%20DES%2020%20RACCOURCIS%20CLAVIER%20INDI....pdf" target="_blank" download>Télécharger</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CTA PAIEMENT -->
+<section class="cta-section" id="ctaSection">
+  <div class="section-inner cta-inner">
+    <div class="cta-text">
+      <span class="eyebrow">Prêt à aller plus loin ?</span>
+      <h2>Débloquez la formation complète</h2>
+      <ul class="cta-list">
+        <li>✅ Les 4 modules vidéo complets</li>
+        <li>✅ Tous les documents Word et PDF</li>
+        <li>✅ Guide des raccourcis clavier</li>
+        <li>✅ Accès illimité, sans abonnement</li>
+      </ul>
+    </div>
+    <div class="cta-action">
+      <a id="whatsappBtn" class="btn-whatsapp" href="#" target="_blank">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Payer via WhatsApp
+      </a>
+      <p class="cta-note">Paiement Mobile Money · Accès activé dans les 24h</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="nav-brand">
+      <span class="brand-w">W</span>ord<span class="brand-dot">.</span>
+    </div>
+    <p>© 2026 Formation Word · Tous droits réservés</p>
+    <p class="footer-contact">Support : <a href="mailto:packdeformations@gmail.com">packdeformations@gmail.com</a></p>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

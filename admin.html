@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — Formation Word</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    /* ── TOKENS ── */
+    :root {
+      --bg:       #0B1120;
+      --surface:  #111827;
+      --card:     #151e30;
+      --border:   #1f2d45;
+      --blue:     #2563EB;
+      --blue-l:   #3b82f6;
+      --green:    #10B981;
+      --gold:     #F59E0B;
+      --red:      #EF4444;
+      --text:     #E2E8F0;
+      --muted:    #8094ae;
+      --r:        10px;
+      --trans:    .18s ease;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; }
+    button { cursor: pointer; font-family: inherit; border: none; background: none; }
+    input, select { font-family: inherit; }
+    .hidden { display: none !important; }
+
+    /* ── LOGIN ── */
+    #loginScreen {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      padding: 1.5rem;
+    }
+    .login-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2.5rem 2rem;
+      width: 100%; max-width: 380px;
+    }
+    .logo { font-family: 'Syne', sans-serif; font-size: 1.4rem; font-weight: 800; margin-bottom: 1.75rem; }
+    .logo .w { color: var(--blue); }
+    .logo .dot { color: var(--gold); }
+    .logo .tag { font-size: .7rem; font-weight: 400; color: var(--muted); margin-left: .5rem; letter-spacing: .08em; text-transform: uppercase; vertical-align: middle; }
+    .login-box h1 { font-family: 'Syne', sans-serif; font-size: 1.4rem; font-weight: 700; margin-bottom: .25rem; }
+    .login-box p  { color: var(--muted); font-size: .88rem; margin-bottom: 1.75rem; }
+    .field { margin-bottom: 1.1rem; }
+    .field label { display: block; font-size: .78rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .07em; margin-bottom: .45rem; }
+    .field input {
+      width: 100%; background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--r); color: var(--text); font-size: .92rem;
+      padding: .65rem .9rem; outline: none; transition: border-color var(--trans);
+    }
+    .field input:focus { border-color: var(--blue-l); }
+    .err-msg { color: var(--red); font-size: .82rem; min-height: 1.1rem; margin-bottom: .5rem; }
+    .btn-main {
+      width: 100%; background: var(--blue); color: #fff; border-radius: var(--r);
+      font-size: .92rem; font-weight: 600; padding: .7rem;
+      transition: background var(--trans);
+    }
+    .btn-main:hover { background: var(--blue-l); }
+
+    /* ── TOPBAR ── */
+    .topbar {
+      background: var(--surface); border-bottom: 1px solid var(--border);
+      height: 56px; display: flex; align-items: center;
+      justify-content: space-between; padding: 0 1.5rem;
+      position: sticky; top: 0; z-index: 100;
+    }
+    .topbar .logo { margin: 0; font-size: 1.1rem; }
+    .btn-out {
+      border: 1px solid var(--border); border-radius: var(--r);
+      color: var(--muted); font-size: .8rem; padding: .4rem .9rem;
+      transition: all var(--trans);
+    }
+    .btn-out:hover { border-color: var(--red); color: var(--red); }
+
+    /* ── TABS ── */
+    .page { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem; }
+    .tabs {
+      display: flex; gap: 3px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--r); padding: 3px;
+      width: fit-content; margin-bottom: 2rem;
+    }
+    .t-btn {
+      border-radius: 8px; color: var(--muted);
+      font-size: .85rem; font-weight: 500; padding: .5rem 1.1rem;
+      transition: all var(--trans);
+    }
+    .t-btn.on { background: var(--blue); color: #fff; }
+    .t-btn:not(.on):hover { color: var(--text); }
+    .tab-pane { display: none; }
+    .tab-pane.on { display: block; }
+
+    /* ── SECTION HEADERS ── */
+    .sec-title { font-family: 'Syne', sans-serif; font-size: 1.25rem; font-weight: 700; margin-bottom: .2rem; }
+    .sec-sub   { color: var(--muted); font-size: .88rem; margin-bottom: 1.5rem; }
+
+    /* ── STATS ── */
+    .stats { display: flex; gap: .75rem; flex-wrap: wrap; margin-bottom: 1.25rem; }
+    .chip {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--r); padding: .85rem 1.25rem;
+      display: flex; flex-direction: column; gap: 2px; min-width: 110px;
+    }
+    .chip strong { font-family: 'Syne', sans-serif; font-size: 1.5rem; font-weight: 700; }
+    .chip span   { font-size: .75rem; color: var(--muted); }
+    .chip.c-blue  strong { color: var(--blue-l); }
+    .chip.c-green strong { color: var(--green); }
+    .chip.c-gold  strong { color: var(--gold); }
+
+    /* ── TOOLBAR ── */
+    .toolbar { display: flex; gap: .6rem; flex-wrap: wrap; align-items: center; margin-bottom: 1rem; }
+    .s-input {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--r); color: var(--text); font-size: .88rem;
+      padding: .55rem .9rem; outline: none; min-width: 220px; flex: 1;
+      transition: border-color var(--trans);
+    }
+    .s-input:focus { border-color: var(--blue-l); }
+    .s-input::placeholder { color: var(--muted); }
+    .f-sel {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--r); color: var(--text); font-size: .88rem;
+      padding: .55rem .9rem; outline: none; cursor: pointer;
+    }
+    .btn-refresh {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--r); color: var(--text); font-size: .82rem;
+      font-weight: 500; padding: .55rem 1rem; margin-left: auto;
+      transition: all var(--trans);
+    }
+    .btn-refresh:hover { border-color: var(--blue-l); color: var(--blue-l); }
+
+    /* ── TABLE ── */
+    .tbl-wrap {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; overflow: hidden;
+    }
+    table { width: 100%; border-collapse: collapse; }
+    thead { background: var(--surface); }
+    thead th {
+      color: var(--muted); font-size: .72rem; font-weight: 600;
+      letter-spacing: .08em; padding: .9rem 1rem; text-align: left;
+      text-transform: uppercase; border-bottom: 1px solid var(--border);
+    }
+    tbody tr { border-bottom: 1px solid var(--border); transition: background var(--trans); }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: rgba(255,255,255,.025); }
+    tbody td { padding: .85rem 1rem; font-size: .88rem; vertical-align: middle; }
+    .td-muted { color: var(--muted); font-size: .8rem; }
+
+    .badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      border-radius: 6px; font-size: .72rem; font-weight: 600;
+      padding: .2rem .65rem; text-transform: uppercase; letter-spacing: .05em;
+    }
+    .b-free { background: rgba(37,99,235,.15); color: var(--blue-l); }
+    .b-full { background: rgba(16,185,129,.15); color: var(--green); }
+
+    .act-btn {
+      border-radius: 7px; font-size: .78rem; font-weight: 600;
+      padding: .35rem .85rem; transition: all .15s;
+    }
+    .btn-grant  { background: rgba(16,185,129,.12); color: var(--green); }
+    .btn-grant:hover  { background: rgba(16,185,129,.28); }
+    .btn-revoke { background: rgba(239,68,68,.12); color: var(--red); }
+    .btn-revoke:hover { background: rgba(239,68,68,.28); }
+
+    .row-info td { text-align: center; padding: 3rem !important; color: var(--muted); font-size: .9rem; }
+
+    /* ── FORM CARDS (accès + config) ── */
+    .form-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 1.5rem; max-width: 480px;
+    }
+    .form-card h3 { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; margin-bottom: .2rem; }
+    .form-card .desc { color: var(--muted); font-size: .83rem; margin-bottom: 1.25rem; }
+    .f-group { margin-bottom: 1rem; }
+    .f-group label { display: block; font-size: .77rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .07em; margin-bottom: .4rem; }
+    .f-group input {
+      width: 100%; background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--r); color: var(--text); font-size: .88rem;
+      padding: .6rem .85rem; outline: none; transition: border-color var(--trans);
+    }
+    .f-group input:focus { border-color: var(--blue-l); }
+
+    /* Accès radio */
+    .acc-radios { display: flex; gap: .6rem; margin-bottom: 1.25rem; }
+    .acc-opt {
+      flex: 1; border: 2px solid var(--border); border-radius: var(--r);
+      padding: .7rem .9rem; display: flex; align-items: center; gap: .6rem;
+      font-size: .85rem; font-weight: 500; cursor: pointer; transition: all var(--trans);
+    }
+    .acc-opt input { display: none; }
+    .acc-opt.s-full { border-color: var(--green); background: rgba(16,185,129,.08); color: var(--green); }
+    .acc-opt.s-free { border-color: var(--gold);  background: rgba(245,158,11,.08);  color: var(--gold); }
+    .acc-opt:not(.s-full):not(.s-free):hover { border-color: var(--muted); }
+
+    .result-line {
+      border-radius: var(--r); font-size: .85rem; font-weight: 500;
+      padding: .65rem .9rem; margin-top: .9rem; display: none;
+    }
+    .result-line.ok  { background: rgba(16,185,129,.12); color: var(--green); display: block; }
+    .result-line.err { background: rgba(239,68,68,.12);  color: var(--red);   display: block; }
+
+    /* Config grid */
+    .cfg-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .btn-save {
+      background: var(--blue); color: #fff; border-radius: var(--r);
+      font-size: .85rem; font-weight: 600; padding: .6rem 1.25rem;
+      transition: background var(--trans); margin-top: .25rem;
+    }
+    .btn-save:hover { background: var(--blue-l); }
+
+    /* ── TOAST ── */
+    #toast {
+      position: fixed; bottom: 1.5rem; right: 1.5rem;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--r); color: var(--text);
+      font-size: .85rem; font-weight: 500; padding: .7rem 1.1rem;
+      box-shadow: 0 8px 32px rgba(0,0,0,.5);
+      opacity: 0; transform: translateY(6px);
+      transition: all .22s; z-index: 9999; pointer-events: none;
+    }
+    #toast.show { opacity: 1; transform: translateY(0); }
+    #toast.ok  { border-left: 3px solid var(--green); }
+    #toast.err { border-left: 3px solid var(--red);   }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 700px) {
+      .cfg-grid { grid-template-columns: 1fr; }
+      .tabs { flex-wrap: wrap; width: 100%; }
+      thead th:nth-child(3), tbody td:nth-child(3) { display: none; } /* masquer date */
+    }
+    @media (max-width: 480px) {
+      .page { padding: 1.25rem 1rem; }
+      .topbar { padding: 0 1rem; }
+      .form-card { max-width: 100%; }
+      .s-input { min-width: 0; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══ LOGIN ═══ -->
+<div id="loginScreen">
+  <div class="login-box">
+    <div class="logo"><span class="w">W</span>ord<span class="dot">.</span><span class="tag">Admin</span></div>
+    <h1>Panneau d'administration</h1>
+    <p>Connectez-vous avec votre mot de passe administrateur.</p>
+    <div class="field">
+      <label>Mot de passe admin</label>
+      <input type="password" id="adminPwInput" placeholder="••••••••••" autocomplete="current-password" />
+    </div>
+    <div class="err-msg" id="loginErr"></div>
+    <button class="btn-main" id="loginBtn">Accéder au tableau de bord</button>
+  </div>
+</div>
+
+<!-- ═══ ADMIN ═══ -->
+<div id="adminScreen" class="hidden">
+
+  <header class="topbar">
+    <div class="logo"><span class="w">W</span>ord<span class="dot">.</span><span class="tag">Admin</span></div>
+    <button class="btn-out" id="logoutBtn">Déconnexion</button>
+  </header>
+
+  <div class="page">
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="t-btn on" data-tab="users">👥 Utilisateurs</button>
+      <button class="t-btn" data-tab="access">⚡ Gérer l'accès</button>
+      <button class="t-btn" data-tab="config">⚙️ Configuration</button>
+    </div>
+
+    <!-- ── ONGLET UTILISATEURS ── -->
+    <div class="tab-pane on" id="pane-users">
+      <div class="sec-title">Utilisateurs inscrits</div>
+      <div class="sec-sub">Liste complète des comptes enregistrés sur la formation.</div>
+
+      <div class="stats">
+        <div class="chip c-blue"><strong id="st-total">—</strong><span>Total</span></div>
+        <div class="chip c-green"><strong id="st-full">—</strong><span>Accès complet</span></div>
+        <div class="chip c-gold"><strong id="st-free">—</strong><span>Accès gratuit</span></div>
+      </div>
+
+      <div class="toolbar">
+        <input class="s-input" id="searchInput" type="search" placeholder="Rechercher nom ou email…" />
+        <select class="f-sel" id="filterSel">
+          <option value="">Tous les accès</option>
+          <option value="free">Gratuit uniquement</option>
+          <option value="full">Complet uniquement</option>
+        </select>
+        <button class="btn-refresh" id="refreshBtn">↻ Actualiser</button>
+      </div>
+
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Nom</th>
+              <th>E-mail</th>
+              <th>Inscrit le</th>
+              <th>Accès</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="usersBody">
+            <tr class="row-info"><td colspan="5">Chargement…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ── ONGLET GÉRER L'ACCÈS ── -->
+    <div class="tab-pane" id="pane-access">
+      <div class="sec-title">Gérer l'accès d'un utilisateur</div>
+      <div class="sec-sub">Activez ou révoquez l'accès complet après réception d'un paiement.</div>
+
+      <div class="form-card">
+        <h3>Modifier l'accès</h3>
+        <p class="desc">Saisissez l'e-mail du client et choisissez le niveau d'accès.</p>
+
+        <div class="f-group">
+          <label>Adresse e-mail du client</label>
+          <input type="email" id="accEmail" placeholder="client@email.com" />
+        </div>
+
+        <div class="acc-radios" id="accRadios">
+          <label class="acc-opt s-full" id="optFull">
+            <input type="radio" name="accLevel" value="full" checked />
+            ✅ Accès complet
+          </label>
+          <label class="acc-opt" id="optFree">
+            <input type="radio" name="accLevel" value="free" />
+            🔒 Accès gratuit
+          </label>
+        </div>
+
+        <button class="btn-save" id="accBtn">Appliquer</button>
+        <div class="result-line" id="accResult"></div>
+      </div>
+    </div>
+
+    <!-- ── ONGLET CONFIGURATION ── -->
+    <div class="tab-pane" id="pane-config">
+      <div class="sec-title">Configuration</div>
+      <div class="sec-sub">Modifiez les paramètres sans toucher au code source.</div>
+
+      <div class="cfg-grid">
+
+        <div class="form-card">
+          <h3>🔗 URL du script</h3>
+          <p class="desc">URL de déploiement de votre Google Apps Script Web App.</p>
+          <div class="f-group">
+            <label>URL Apps Script</label>
+            <input type="url" id="cfgUrl" placeholder="https://script.google.com/macros/s/…/exec" />
+          </div>
+          <button class="btn-save" id="saveUrl">Enregistrer</button>
+        </div>
+
+        <div class="form-card">
+          <h3>📱 Numéro WhatsApp</h3>
+          <p class="desc">Numéro utilisé pour le bouton de paiement Mobile Money.</p>
+          <div class="f-group">
+            <label>Numéro (avec indicatif)</label>
+            <input type="text" id="cfgWa" placeholder="241074004694" />
+          </div>
+          <button class="btn-save" id="saveWa">Enregistrer</button>
+        </div>
+
+        <div class="form-card">
+          <h3>🔐 Mot de passe admin</h3>
+          <p class="desc">Changez le mot de passe d'accès à ce panneau (stocké localement).</p>
+          <div class="f-group">
+            <label>Nouveau mot de passe</label>
+            <input type="password" id="cfgPw1" placeholder="Nouveau mot de passe" />
+          </div>
+          <div class="f-group">
+            <label>Confirmer</label>
+            <input type="password" id="cfgPw2" placeholder="Répéter le mot de passe" />
+          </div>
+          <button class="btn-save" id="savePw">Mettre à jour</button>
+        </div>
+
+        <div class="form-card">
+          <h3>🔑 Secret admin (API)</h3>
+          <p class="desc">Doit correspondre à <code>ADMIN_SECRET</code> dans Code.gs.</p>
+          <div class="f-group">
+            <label>ADMIN_SECRET</label>
+            <input type="password" id="cfgSecret" placeholder="Mot de passe API admin" />
+          </div>
+          <button class="btn-save" id="saveSecret">Enregistrer</button>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /page -->
+</div><!-- /adminScreen -->
+
+<div id="toast"></div>
+
+<script>
+/* ── CONFIG (localStorage) ── */
+const DEFAULTS = {
+  APPS_SCRIPT_URL: "https://script.google.com/macros/s/AKfycbyL-Wq_eaOBrav28d0Y78KalV4U98KrEbIb_FUpviRbuFUhSbInsk-aH3fJS5_5w2qD0g/exec",
+  WHATSAPP_NUMBER: "+241074004694",
+  ADMIN_SECRET:    "mamayo36&"
+};
+const DEFAULT_PW = "mamayo"; // mot de passe par défaut (à changer dans l'onglet Config)
+
+function getCfg()       { try { return JSON.parse(localStorage.getItem("fw_acfg") || "{}"); } catch { return {}; } }
+function setCfg(obj)    { localStorage.setItem("fw_acfg", JSON.stringify({ ...getCfg(), ...obj })); }
+function getV(k)        { return getCfg()[k] || DEFAULTS[k] || ""; }
+function getAdminPw()   { return localStorage.getItem("fw_apw") || DEFAULT_PW; }
+
+/* ── TOAST ── */
+let toastT;
+function toast(msg, type = "ok") {
+  const el = document.getElementById("toast");
+  el.textContent = msg;
+  el.className = `show ${type}`;
+  clearTimeout(toastT);
+  toastT = setTimeout(() => el.className = "", 3000);
+}
+
+/* ── AUTH ── */
+document.getElementById("loginBtn").addEventListener("click", doLogin);
+document.getElementById("adminPwInput").addEventListener("keydown", e => e.key === "Enter" && doLogin());
+
+function doLogin() {
+  const v = document.getElementById("adminPwInput").value;
+  if (v === getAdminPw()) {
+    document.getElementById("loginScreen").classList.add("hidden");
+    document.getElementById("adminScreen").classList.remove("hidden");
+    loadCfgFields();
+    loadUsers();
+  } else {
+    document.getElementById("loginErr").textContent = "Mot de passe incorrect.";
+  }
+}
+
+document.getElementById("logoutBtn").addEventListener("click", () => {
+  document.getElementById("adminScreen").classList.add("hidden");
+  document.getElementById("loginScreen").classList.remove("hidden");
+  document.getElementById("adminPwInput").value = "";
+  document.getElementById("loginErr").textContent = "";
+});
+
+/* ── TABS ── */
+document.querySelectorAll(".t-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const t = btn.dataset.tab;
+    document.querySelectorAll(".t-btn").forEach(b => b.classList.toggle("on", b === btn));
+    document.querySelectorAll(".tab-pane").forEach(p => p.classList.toggle("on", p.id === `pane-${t}`));
+    if (t === "users") loadUsers();
+  });
+});
+
+/* ── UTILISATEURS ── */
+let allUsers = [];
+
+async function loadUsers() {
+  const body = document.getElementById("usersBody");
+  body.innerHTML = '<tr class="row-info"><td colspan="5">Chargement…</td></tr>';
+
+  const url = getV("APPS_SCRIPT_URL");
+  if (!url || url.includes("VOTRE_SCRIPT_ID")) {
+    body.innerHTML = '<tr class="row-info"><td colspan="5">⚠️ Configurez d\'abord l\'URL du script dans l\'onglet Configuration.</td></tr>';
+    setStats([]);
+    return;
+  }
+
+  const res = await api("listUsers", { adminSecret: getV("ADMIN_SECRET") });
+  if (res.success && Array.isArray(res.users)) {
+    allUsers = res.users;
+    renderUsers();
+  } else {
+    body.innerHTML = `<tr class="row-info"><td colspan="5">⚠️ ${res.message || "Impossible de charger les utilisateurs."}</td></tr>`;
+    setStats([]);
+  }
+}
+
+function renderUsers() {
+  const search = document.getElementById("searchInput").value.toLowerCase();
+  const filter = document.getElementById("filterSel").value;
+  const list   = allUsers.filter(u => {
+    const ok1 = !search || (u.name||"").toLowerCase().includes(search) || (u.email||"").toLowerCase().includes(search);
+    const ok2 = !filter || u.access === filter;
+    return ok1 && ok2;
+  });
+
+  setStats(allUsers);
+  const body = document.getElementById("usersBody");
+
+  if (!list.length) {
+    body.innerHTML = '<tr class="row-info"><td colspan="5">Aucun utilisateur trouvé.</td></tr>';
+    return;
+  }
+
+  body.innerHTML = list.map(u => {
+    const d    = u.createdAt ? new Date(u.createdAt).toLocaleDateString("fr-FR") : "—";
+    const full = u.access === "full";
+    return `<tr>
+      <td><strong>${x(u.name||"—")}</strong></td>
+      <td>${x(u.email||"—")}</td>
+      <td class="td-muted">${d}</td>
+      <td><span class="badge ${full ? "b-full" : "b-free"}">${full ? "✅ Complet" : "🔒 Gratuit"}</span></td>
+      <td>${full
+        ? `<button class="act-btn btn-revoke" onclick="changeAccess('${x(u.email)}','free')">Révoquer</button>`
+        : `<button class="act-btn btn-grant"  onclick="changeAccess('${x(u.email)}','full')">Activer</button>`
+      }</td>
+    </tr>`;
+  }).join("");
+}
+
+function setStats(users) {
+  document.getElementById("st-total").textContent = users.length;
+  document.getElementById("st-full").textContent  = users.filter(u => u.access === "full").length;
+  document.getElementById("st-free").textContent  = users.filter(u => u.access === "free").length;
+}
+
+document.getElementById("searchInput").addEventListener("input", renderUsers);
+document.getElementById("filterSel").addEventListener("change", renderUsers);
+document.getElementById("refreshBtn").addEventListener("click", loadUsers);
+
+/* ── CHANGER ACCÈS (depuis tableau) ── */
+async function changeAccess(email, access) {
+  const res = await api("setAccess", { adminSecret: getV("ADMIN_SECRET"), email, access });
+  if (res.success) {
+    toast(`✅ ${email} → ${access === "full" ? "Complet" : "Gratuit"}`);
+    const u = allUsers.find(u => u.email === email);
+    if (u) u.access = access;
+    renderUsers();
+  } else {
+    toast(`❌ ${res.message}`, "err");
+  }
+}
+
+/* ── ONGLET ACCÈS ── */
+document.querySelectorAll(".acc-opt").forEach(opt => {
+  opt.addEventListener("click", () => {
+    document.querySelectorAll(".acc-opt").forEach(o => o.classList.remove("s-full", "s-free"));
+    const v = opt.querySelector("input").value;
+    opt.classList.add(v === "full" ? "s-full" : "s-free");
+    opt.querySelector("input").checked = true;
+  });
+});
+
+document.getElementById("accBtn").addEventListener("click", async () => {
+  const email  = document.getElementById("accEmail").value.trim();
+  const access = document.querySelector('input[name="accLevel"]:checked')?.value;
+  const res_el = document.getElementById("accResult");
+  if (!email) { res_el.textContent = "Veuillez saisir un e-mail."; res_el.className = "result-line err"; return; }
+
+  const btn = document.getElementById("accBtn");
+  btn.textContent = "Application…"; btn.disabled = true;
+  const res = await api("setAccess", { adminSecret: getV("ADMIN_SECRET"), email, access });
+  btn.textContent = "Appliquer"; btn.disabled = false;
+
+  if (res.success) {
+    res_el.textContent = `✅ ${res.message}`;
+    res_el.className = "result-line ok";
+    toast("Accès mis à jour !");
+    loadUsers();
+  } else {
+    res_el.textContent = `❌ ${res.message}`;
+    res_el.className = "result-line err";
+  }
+});
+
+/* ── ONGLET CONFIG ── */
+function loadCfgFields() {
+  document.getElementById("cfgUrl").value    = getV("APPS_SCRIPT_URL");
+  document.getElementById("cfgWa").value     = getV("WHATSAPP_NUMBER");
+  document.getElementById("cfgSecret").value = getV("ADMIN_SECRET");
+}
+
+document.getElementById("saveUrl").addEventListener("click", () => {
+  setCfg({ APPS_SCRIPT_URL: document.getElementById("cfgUrl").value.trim() });
+  toast("URL enregistrée !");
+});
+document.getElementById("saveWa").addEventListener("click", () => {
+  setCfg({ WHATSAPP_NUMBER: document.getElementById("cfgWa").value.trim() });
+  toast("Numéro WhatsApp enregistré !");
+});
+document.getElementById("saveSecret").addEventListener("click", () => {
+  setCfg({ ADMIN_SECRET: document.getElementById("cfgSecret").value.trim() });
+  toast("Secret API enregistré !");
+});
+document.getElementById("savePw").addEventListener("click", () => {
+  const p1 = document.getElementById("cfgPw1").value;
+  const p2 = document.getElementById("cfgPw2").value;
+  if (!p1)      { toast("Le mot de passe ne peut pas être vide.", "err"); return; }
+  if (p1 !== p2){ toast("Les mots de passe ne correspondent pas.", "err"); return; }
+  if (p1.length < 6) { toast("Minimum 6 caractères.", "err"); return; }
+  localStorage.setItem("fw_apw", p1);
+  document.getElementById("cfgPw1").value = "";
+  document.getElementById("cfgPw2").value = "";
+  toast("Mot de passe admin mis à jour !");
+});
+
+/* ── API HELPER ── */
+async function api(action, payload) {
+  const url = getV("APPS_SCRIPT_URL");
+  try {
+    const r = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "text/plain" },
+      body: JSON.stringify({ action, ...payload })
+    });
+    return await r.json();
+  } catch { return { success: false, message: "Erreur réseau." }; }
+}
+
+function x(s) {
+  return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+}
+</script>
+</body>
+</html>
